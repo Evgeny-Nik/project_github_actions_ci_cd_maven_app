@@ -11,11 +11,18 @@ and provisioning an AWS EC2 instance using Terraform, and running the Docker Ima
 
 ## Workflow Overview
 ### trigger:
-the workflow is triggered on Push event to `master` branch.
+the workflow is triggered on Push event to `master` branch in the following paths:
 ```bash
 on:
   push:
-    branches: [ "master" ]
+    branches: 
+      - "master"
+    paths:       
+      - 'src/**'
+      - 'tf-files/**'
+      - '.github/workflows/**'
+      - 'Dockerfile'
+      - 'pom.xml'
 ```
 ## Jobs:
 The workflow consists of two main jobs:
