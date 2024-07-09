@@ -3,11 +3,6 @@ variable "region" {
   default = "eu-north-1"
 }
 
-variable "aws_dynamo_table_name" {
-  type    = string
-  default = "terraform-state-lock-dynamo"
-}
-
 variable "key_pair_name" {
   description = "key_pair_name"
   type        = string
