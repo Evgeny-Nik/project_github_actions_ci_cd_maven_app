@@ -3,7 +3,14 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 
 on:
   push:
-    branches: [ "master" ]
+    branches: 
+      - "master"
+    paths:       
+      - 'src/**'
+      - 'tf-files/**'
+      - '.github/workflows/**'
+      - 'Dockerfile'
+      - 'pom.xml'
 
 jobs:
   build:

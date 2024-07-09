@@ -3,7 +3,7 @@
 
 ## Source code
 the project uses a fork of the following app: \
-https://github.comjenkins-docs/simple-java-maven-app
+https://github.com/jenkins-docs/simple-java-maven-app
 
 ## GitHub Actions CI/CD Stages
 This GitHub Actions workflow automates the process of building, tagging and pushing a Docker image of a Java application, \
@@ -115,5 +115,5 @@ docker run ${DOCKERHUB_USERNAME}/github_app:latest
 
 ## Links
 
-- [Simple Java Maven App](https://github.comjenkins-docs/simple-java-maven-app)
+- [Simple Java Maven App](https://github.com/jenkins-docs/simple-java-maven-app)
 - [DockerHub Project Registry](https://hub.docker.com/repository/docker/${DOCKERHUB_USERNAME}/github_app)
