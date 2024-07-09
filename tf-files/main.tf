@@ -21,7 +21,7 @@ resource "aws_instance" "web" {
   user_data         = file("${var.action_file}")
 
   tags = {
-    Name = "${var.instance_tag}"
+    Version = "${var.instance_tag}"
   }
     # Lifecycle for better uptime
   lifecycle {
