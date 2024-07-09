@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.build.outputs.VERSION }}
+      version: ${{ steps.check-version.outputs.VERSION }}
 
     steps:
       - name: Checkout Repo
@@ -21,6 +21,7 @@ jobs:
           pom-file: 'pom.xml'
 
       - name: Save and Print Version
+        id: check-version
         run: |
           VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
