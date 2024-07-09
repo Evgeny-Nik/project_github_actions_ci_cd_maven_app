@@ -1,0 +1,11 @@
+*
+!*/
+!*.tf
+!*.sh
+!*.java
+!Dockerfile
+!pom.xml
+!README.md
+!.gitignore
+.terraform
+.idea
