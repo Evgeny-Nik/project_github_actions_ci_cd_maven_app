@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.build.outputs.VERSION }}
 
     steps:
       - name: Checkout Repo
@@ -22,6 +24,7 @@ jobs:
         run: |
           VERSION=$(grep version pom.xml | grep -v -e '<?xml|~'| head -n 1 | sed 's/[[:space:]]//g' | sed -E 's/<.{0,1}version>//g' | awk '{print $1}')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "New Version: $VERSION"
 
       - name: Build and Tag Docker Image
@@ -47,6 +50,8 @@ jobs:
     defaults:
       run:
         working-directory: ./tf-files
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
 
     steps:
       - name: Checkout Repo
