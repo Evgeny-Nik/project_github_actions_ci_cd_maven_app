@@ -65,9 +65,6 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Debug Print VERSION
-        run: echo "VERSION is ${{ env.VERSION }}"
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
