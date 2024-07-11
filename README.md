@@ -1,18 +1,16 @@
-
 # CI/CD Project for Containerized simple-java-maven-app
 
 ## Source code
-the project uses a fork of the following app: \
+The project uses a fork of the following app: \
 https://github.com/jenkins-docs/simple-java-maven-app
 
 ## GitHub Actions CI/CD Stages
-This GitHub Actions workflow automates the process of building, tagging and pushing a Docker image of a Java application, \
-and provisioning an AWS EC2 instance using Terraform, and running the Docker Image on that EC2 instance.
+This GitHub Actions workflow automates the process of building, tagging, and pushing a Docker image of a Java application, provisioning an AWS EC2 instance using Terraform, and running the Docker image on that EC2 instance.
 
 ## Workflow Overview
-### trigger:
-the workflow is triggered on Push event to `master` branch in the following paths:
-```bash
+### Trigger:
+The workflow is triggered on Push event to the `master` branch in the following paths:
+```yaml
 on:
   push:
     branches: 
@@ -26,13 +24,9 @@ on:
 ```
 ## Jobs:
 The workflow consists of two main jobs:
-1. **Build**: This job checks out the repository, 
-increments the version in the `pom.xml` file, \
-builds and tags the Docker image, \
-and pushes it to Docker Hub.
 
-2. **Provision-EC2**: This job provisions an EC2 instance using Terraform.
-It requires the successful completion of the `build` job.
+1. **Build**: Checks out the repository, increments the version in the `pom.xml` file, builds and tags the Docker image, and pushes it to Docker Hub.
+2. **Provision-EC2**: Provisions an EC2 instance using Terraform. It requires the successful completion of the `build` job.
 
 ## Steps
 ### 1. Job - Build
@@ -58,6 +52,11 @@ It requires the successful completion of the `build` job.
 ```bash
 docker build -t ${DOCKERHUB_USERNAME}/github_app:${{env.VERSION}} --build-arg APP_VERSION=${{env.VERSION}} .
 ```
+## Run Program Locally
+
+```bash
+docker run ${DOCKERHUB_USERNAME}/github_app:latest
+```
 
 ### Inside Dockerfile
 
@@ -70,26 +69,12 @@ docker build -t ${DOCKERHUB_USERNAME}/github_app:${{env.VERSION}} --build-arg AP
 #### Stage 1: Build
 
 - Copy source code.
-```dockerfile
-COPY . .
-```
-
 - Compile Java application and create JAR file.
-```dockerfile
-RUN mvn package
-```
 
 #### Stage 2: Run
 
 - Copy JAR file from the build stage.
-```dockerfile
-COPY --from=maven /target/my-app-$APP_VERSION.jar .
-```
-
 - Execute the program when running the image.
-```dockerfile
-CMD java -jar $APP
-```
 
 ## Versioning Logic
 The project adheres to semantic versioning (Major.Minor.Patch) to ensure a structured and predictable versioning system.
@@ -103,7 +88,7 @@ The project adheres to semantic versioning (Major.Minor.Patch) to ensure a struc
 
 ## Plugin Used
 
-#### GitHub Action:
+#### GitHub Actions:
 - ***actions/checkout@v4*** - Allows you to take actions on your source code.
 - ***[docker/login-action@v3](https://github.com/docker/login-action)*** - Allows you to log in against a Docker registry.
 - ***[mickem/gh-action-bump-maven-version@v1.0.0](https://github.com/mickem/gh-action-bump-maven-version)*** - Allows you to increment the version in your Maven `pom.xml` file.
@@ -114,11 +99,39 @@ The project adheres to semantic versioning (Major.Minor.Patch) to ensure a struc
 - ***maven:3.8.6*** - Docker Image for building Java applications using Maven.
 - ***openjdk:17-jdk-slim*** - Docker Image for running Java applications.
 
-## Run Program Locally
 
-```bash
-docker run ${DOCKERHUB_USERNAME}/github_app:latest
-```
+## Reproducing the Project
+
+To reproduce this project, follow these steps:
+
+1. **Fork and Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/simple-java-maven-app.git
+   cd simple-java-maven-app
+   ```
+
+2. **Set Up GitHub Secrets**:
+   - Go to your repository on GitHub.
+   - Navigate to Settings > Secrets and Variables > Actions.
+   - Add the following secrets:
+      - `DOCKERHUB_USERNAME`
+      - `DOCKERHUB_PASSWORD`
+      - `AWS_ACCESS_KEY_ID`
+      - `AWS_SECRET_ACCESS_KEY`
+      - `AWS_REGION`
+
+3. **(Optional) To Run Terraform commands Locally Configure Terraform Variables**:
+   - Navigate to the `tf-files` directory.
+   - Create a `terraform.tfvars` file and add your AWS configuration:
+      ```hcl
+      aws_access_key = "YOUR_AWS_ACCESS_KEY"
+      aws_secret_key = "YOUR_AWS_SECRET_KEY"
+      region         = "YOUR_AWS_REGION"
+      ```
+
+4. **Run the Workflow**:
+    - Push changes to the `master` branch.
+    - The workflow will trigger and execute the defined jobs.
 
 ## Links
 
