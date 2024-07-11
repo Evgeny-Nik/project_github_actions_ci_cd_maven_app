@@ -123,4 +123,4 @@ docker run ${DOCKERHUB_USERNAME}/github_app:latest
 ## Links
 
 - [Simple Java Maven App](https://github.com/jenkins-docs/simple-java-maven-app)
-- [DockerHub Project Registry](https://hub.docker.com/repository/docker/${DOCKERHUB_USERNAME}/github_app)
+- [DockerHub Project Registry](https://hub.docker.com/repository/docker/evgenyniko/github_app)
